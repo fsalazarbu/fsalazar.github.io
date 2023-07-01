@@ -1,0 +1,77 @@
+#board display
+board = [[' ',' ',' '],
+         [' ',' ',' '],
+         [' ',' ',' ']]
+
+class Board_game:
+    def __init__(self, board):
+        self.board = board
+    def display(self):
+        for column in board:
+            print('|'.join(column))
+            print('-' * 5)
+
+board_game = Board_game(board)
+
+#first player x object
+class X:
+    def input(self, x_row, x_column):
+        board[x_row][x_column] = 'x'
+        return board_game.display()
+
+#second player o object
+class O:
+    def input(self, o_row, o_column):
+        board[o_row][o_column] = 'o'
+        return board_game.display()
+
+#check win
+def check_win(board, symbol):
+    # Check rows
+    for row in board:
+        if all(cell == symbol for cell in row):
+            return True
+
+    # Check columns
+    for col in range(3):
+        if all(board[row][col] == symbol for row in range(3)):
+            return True
+
+    # Check diagonals
+    if board[0][0] == board[1][1] == board[2][2] == symbol:
+        return True
+
+    if board[0][2] == board[1][1] == board[2][0] == symbol:
+        return True
+
+    return False
+
+
+def play_tic_tac_toe():
+    game_over = False
+
+    while game_over == False:
+        x = X()
+        o = O()
+
+        board_game.display()
+
+        x_row = int(input("Choose the row to place your X: ").lower())
+        x_column = int(input("Choose the column 0to place your X: ").lower())
+
+        x.input(x_row, x_column)
+
+        o_row = int(input("Choose the row to place your O: ").lower())
+        o_column = int(input("Choose the column 0to place your O: ").lower())
+
+        o.input(o_row, o_column)
+
+        if check_win(board, 'x') == True:
+            game_over = True
+            break
+
+        elif check_win(board, 'o') == True:
+            game_over = True
+
+
+play_tic_tac_toe()
